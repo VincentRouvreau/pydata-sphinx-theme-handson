@@ -1,0 +1,21 @@
+name: build sphinx doc
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: build pip wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          python -m pip install -U sphinx pydata-sphinx-theme
+      - name: Build documentation
+        run: |
+          sphinx-build -b html doc public
+      - name: Upload documentation as an artefact
+        uses: actions/upload-artifact@v3
+        with:
+          name: My awesome documentation
+          path: public
